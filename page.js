@@ -384,6 +384,8 @@
     this.path = path.replace(base, '') || '/';
     if (hashbang) this.path = this.path.replace('#!', '') || '/';
 
+    if (this.path.indexOf('//') === 0) this.path = this.path.replace('//', '/');
+
     this.title = document.title;
     this.state = state || {};
     this.state.path = path;
@@ -551,7 +553,7 @@
     var i = 0,
        path = e.path || false,
        el = path ? e.path[i] : e.target;
-       
+
     while (el && 'A' !== el.nodeName) el = path ? e.path[++i] : el.parentElement;
     if (!el || 'A' !== el.nodeName) return;
 
