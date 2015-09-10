@@ -172,6 +172,7 @@
 
   page.startEvent = function () {
     if (!running) {
+      document.removeEventListener(clickEvent, onclick, false);
       document.addEventListener(clickEvent, onclick, false);
       running = true;
     }
