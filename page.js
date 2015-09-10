@@ -170,6 +170,13 @@
     page.replace(url, null, true, dispatch);
   };
 
+  page.startEvent = function () {
+    if (!running) {
+      document.addEventListener(clickEvent, onclick, false);
+      running = true;
+    }
+  };
+
   /**
    * Unbind click and popstate event handlers.
    *
