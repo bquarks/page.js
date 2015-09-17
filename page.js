@@ -174,6 +174,8 @@
     if (!running) {
       document.removeEventListener(clickEvent, onclick, false);
       document.addEventListener(clickEvent, onclick, false);
+      window.removeEventListener('popstate', onpopstate, false);
+      window.addEventListener('popstate', onpopstate, false);
       running = true;
     }
   };
