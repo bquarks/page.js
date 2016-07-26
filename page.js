@@ -1,4 +1,5 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.page=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+!function (e) {if ('object' == typeof exports &&'undefined' != typeof module)module.exports = e();else if ('function' == typeof define && define.amd)define([], e);else {
+var f;'undefined' != typeof window ? f = window : 'undefined' != typeof global ? f = global : 'undefined'!=typeof self&&(f=self),f.page=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process){
   /* globals require, module */
 
@@ -168,6 +169,16 @@
     if (!dispatch) return;
     var url = (hashbang && ~location.hash.indexOf('#!')) ? location.hash.substr(2) + location.search : location.pathname + location.search + location.hash;
     page.replace(url, null, true, dispatch);
+  };
+
+  page.startEvent = function () {
+    if (!running) {
+      document.removeEventListener(clickEvent, onclick, false);
+      document.addEventListener(clickEvent, onclick, false);
+      window.removeEventListener('popstate', onpopstate, false);
+      window.addEventListener('popstate', onpopstate, false);
+      running = true;
+    }
   };
 
   /**
@@ -388,7 +399,7 @@
     this.state = state || {};
     this.state.path = path;
     this.querystring = ~i ? decodeURLEncodedURIComponent(path.slice(i + 1)) : '';
-    this.pathname = decodeURLEncodedURIComponent(~i ? path.slice(0, i) : path);
+    this.pathname = ~i ? path.slice(0, i) : path;
     this.params = {};
 
     // fragment
@@ -526,7 +537,7 @@
     }
     return function onpopstate(e) {
       if (!loaded) return;
-      if (e.state) {
+      if (e.state && e.state.path !== undefined) {
         var path = e.state.path;
         page.replace(path, e.state);
       } else {

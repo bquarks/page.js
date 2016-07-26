@@ -1,11 +1,11 @@
 {
   "name": "page",
   "description": "Tiny client-side router",
-  "version": "1.6.12",
+  "version": "1.6.16",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/visionmedia/page.js.git"
+    "url": "git://github.com/bquarks/page.js.git"
   },
   "component": {
     "scripts": {
