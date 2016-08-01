@@ -401,7 +401,7 @@ var f;'undefined' != typeof window ? f = window : 'undefined' != typeof global ?
     this.state = state || {};
     this.state.path = path;
     this.querystring = ~i ? decodeURLEncodedURIComponent(path.slice(i + 1)) : '';
-    this.pathname = ~i ? path.slice(0, i) : path;
+    this.pathname = decodeURLEncodedURIComponent(~i ? path.slice(0, i) : path);
     this.params = {};
 
     // fragment
@@ -509,7 +509,7 @@ var f;'undefined' != typeof window ? f = window : 'undefined' != typeof global ?
 
     for (var i = 1, len = m.length; i < len; ++i) {
       var key = keys[i - 1];
-      var val = decodeURLEncodedURIComponent(m[i]);
+      var val = m[i];
       if (val !== undefined || !(hasOwnProperty.call(params, key.name))) {
         params[key.name] = val;
       }
