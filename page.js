@@ -503,7 +503,7 @@ var f;'undefined' != typeof window ? f = window : 'undefined' != typeof global ?
     var keys = this.keys,
       qsIndex = path.indexOf('?'),
       pathname = ~qsIndex ? path.slice(0, qsIndex) : path,
-      m = this.regexp.exec(decodeURIComponent(pathname));
+      m = this.regexp.exec(pathname);
 
     if (!m) return false;
 
@@ -511,7 +511,7 @@ var f;'undefined' != typeof window ? f = window : 'undefined' != typeof global ?
       var key = keys[i - 1];
       var val = m[i];
       if (val !== undefined || !(hasOwnProperty.call(params, key.name))) {
-        params[key.name] = val;
+        params[key.name] = decodeURIComponent(val);
       }
     }
 
